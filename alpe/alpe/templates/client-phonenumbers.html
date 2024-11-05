@@ -11,7 +11,7 @@
                     <p>
                         <strong>Teléfono:</strong> {{ phone_number.number }}
                         <!-- Enlace de eliminación funcional (si implementas la vista para manejar esto) -->
-                        <a class="btn btn-danger btn-sm">Eliminar</a>
+                        <a href="{% url 'delete_client_phonenumber' client.id phone_number.number %}" class="btn btn-danger btn-sm">Eliminar</a>
                     </p>
                 {% endif %}
             {% endfor %}

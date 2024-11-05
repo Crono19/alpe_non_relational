@@ -121,3 +121,18 @@ def add_client_phonenumber(request, pk):
 
     context = {"form": form, "client": client}
     return render(request, "create-client-phonenumber.html", context=context)
+
+def delete_client_phonenumber(request, client_id, phone_number):
+    try:
+        # Buscar el cliente usando MongoEngine
+        client = Client.objects.get(id=client_id)
+        
+        # Filtrar para mantener solo los números que no coinciden con el número que queremos eliminar
+        client.phone_numbers = [p for p in client.phone_numbers if p.number != phone_number]
+        
+        # Guardar los cambios en la base de datos
+        client.save()
+        
+        return redirect('client-phonenumbers', pk=client_id)  # Redirige de nuevo a la lista de números de teléfono
+    except DoesNotExist:
+        return render(request, "404.html")  # Muestra una página 404 si no se encuentra el cliente

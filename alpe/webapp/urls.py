@@ -11,4 +11,5 @@ urlpatterns = [
     path("delete-client/<str:pk>", views.delete_client, name="delete-client"),
     path("client-phonenumbers/<str:pk>", views.view_client_phonenumbers, name="client-phonenumbers"),
     path("add-client-phonenumber/<str:pk>", views.add_client_phonenumber, name="add-client-phonenumber"),
+    path('delete-client-phonenumber/<str:client_id>/<str:phone_number>/', views.delete_client_phonenumber, name='delete_client_phonenumber'),
 ]
