@@ -19,6 +19,6 @@
     &nbsp;
     <a href="{% url 'update-client' client.id %}" class="btn btn-info">Actualizar</a>
     &nbsp;
-    <a class="btn btn-danger">Eliminar</a>
+    <a href="{% url 'delete-client' client.id %}" class="btn btn-danger">Eliminar</a>
 
 {% endblock %}

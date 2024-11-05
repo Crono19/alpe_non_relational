@@ -2,12 +2,11 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from .models import Client, PhoneNumber
 from .forms import CreateClient, UpdateClient, AddClientPhones
-from bson import ObjectId
 from django.shortcuts import render
 from mongoengine.errors import DoesNotExist
 
 def clients_list(request):
-    clients = Client.objects()
+    clients = Client.objects.filter(deleted='false')
     return render(request, 'clients.html', {'clients': clients})
 
 def view_client(request, pk):
@@ -91,6 +90,13 @@ def update_client(request, pk):
 
     context = {"form": form}
     return render(request, "update-client.html", context=context)
+
+def delete_client(request, pk):
+    client = Client.objects(id=pk).first()
+
+    client.delete()
+
+    return redirect("clients_list")
 
 def add_client_phonenumber(request, pk):
     client = Client.objects(id=pk).first()
