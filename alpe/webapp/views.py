@@ -99,8 +99,25 @@ def delete_client(request, pk):
     return redirect("clients_list")
 
 def add_client_phonenumber(request, pk):
-    client = Client.objects(id=pk).first()
-    form = AddClientPhones()
+    try:
+        # Buscar el cliente usando MongoEngine
+        client = Client.objects.get(id=pk)
+    except DoesNotExist:
+        # Si no se encuentra, muestra una página de error 404
+        return render(request, "404.html")
+
+    if request.method == "POST":
+        form = AddClientPhones(request.POST)
+        if form.is_valid():
+            # Crear una instancia de PhoneNumber con el número proporcionado
+            phone_number = PhoneNumber(number=form.cleaned_data['number'])
+            if client.phone_numbers is None:
+                client.phone_numbers = []  # Inicializa como una lista vacía si no existe
+            client.phone_numbers.append(phone_number)
+            client.save()  # Guarda los cambios en la base de datos
+            return redirect('client-phonenumbers', pk=pk)  # Redirige a la página de números de teléfono del cliente
+    else:
+        form = AddClientPhones()
 
     context = {"form": form, "client": client}
     return render(request, "create-client-phonenumber.html", context=context)
