@@ -4,6 +4,7 @@ from .models import Client, PhoneNumber
 from .forms import CreateClient, UpdateClient, AddClientPhones
 from bson import ObjectId
 from django.shortcuts import render
+from mongoengine.errors import DoesNotExist
 
 def clients_list(request):
     clients = Client.objects()
@@ -62,7 +63,31 @@ def create_client(request):
     return render(request, "create-client.html", context=context)
 
 def update_client(request, pk):
-    form = UpdateClient()
+    try:
+        # Buscar el cliente usando MongoEngine
+        client = Client.objects.get(id=pk)
+    except DoesNotExist:
+        # Si no se encuentra, muestra una página de error 404
+        return render(request, "404.html")
+
+    if request.method == "POST":
+        form = UpdateClient(request.POST)
+        if form.is_valid():
+            # Actualizar los campos del cliente usando los nombres en minúsculas
+            client.code = form.cleaned_data['code']
+            client.nit = form.cleaned_data['nit']
+            client.name = form.cleaned_data['name']
+            client.direction = form.cleaned_data['direction']
+            client.save()  # Guarda los cambios en la base de datos
+            return redirect('clients_list')  # Redirige a una lista de clientes o una página específica
+    else:
+        # Inicializar el formulario con los datos existentes en minúsculas
+        form = UpdateClient(initial={
+            "code": client.code,
+            "nit": client.nit,
+            "name": client.name,
+            "direction": client.direction
+        })
 
     context = {"form": form}
     return render(request, "update-client.html", context=context)
