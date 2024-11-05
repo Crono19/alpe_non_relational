@@ -1,27 +1,14 @@
-from .models import Client
+# webapp/forms.py
 from django import forms
 
-# Create client
-class CreateClient(forms.ModelForm):
-    class Meta:
-        model = Client
-        fields = ["code", "nit", "name", "direction"]
-        labels = {
-            "code": "Código",
-            "nit": "NIT",
-            "name": "Nombre",
-            "direction": "Dirección",
-        }
+class CreateClient(forms.Form):
+    code = forms.CharField(label="Código", max_length=100)
+    nit = forms.CharField(label="NIT", max_length=100)
+    name = forms.CharField(label="Nombre", max_length=100)
+    direction = forms.CharField(label="Dirección", max_length=255, required=False)
 
-
-# Update client
-class UpdateClient(forms.ModelForm):
-    class Meta:
-        model = Client
-        fields = ["code", "nit", "name", "direction"]
-        labels = {
-            "code": "Código",
-            "nit": "NIT",
-            "name": "Nombre",
-            "direction": "Dirección",
-        }
+class UpdateClient(forms.Form):
+    code = forms.CharField(label="Código", max_length=100)
+    nit = forms.CharField(label="NIT", max_length=100)
+    name = forms.CharField(label="Nombre", max_length=100)
+    direction = forms.CharField(label="Dirección", max_length=255, required=False)

@@ -1,69 +1,27 @@
-{% extends 'base.html' %}
-{% load crispy_forms_tags %}
-{% block content %}
-    <h2>Clientes</h2>
-    <br>
+<!-- templates/clients.html -->
 
-    <label> Filtrar clientes </label>
-    <input type="text" id="client-filter" class="form-control">
-    <br>
-    <a class="btn btn-outline-primary btn-sm" href="{% url 'create-client' %}">Crear un cliente</a>
-    <hr>
-
-    <!---- Creating the table output ---->
-    <table class="table table-bordered table-hover table-light">
-        <!---- Setting headers ---->
-        <thead class="table-dark">
-            <tr>
-                <th scope="col">Código</th>
-                <th scope="col">NIT</th>
-                <th scope="col">Nombre</th>
-                <th scope="col">Dirección</th>
-                <th scope="col">Telefonos</th>
-
-                {% if user.is_authenticated %}
-                    {% for group in user.groups.all %}
-                        {% if group.name == "Administrador" %}
-                            <th scope="col">Ver</th>
-                        {% endif %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Clients List</title>
+</head>
+<body>
+    <h1>Clients List</h1>
+    <ul>
+        {% for client in clients %}
+            <li>
+                <strong>{{ client.name }}</strong> - {{ client.nit }}<br>
+                Code: {{ client.code }}<br>
+                Direction: {{ client.direction }}<br>
+                Phone Numbers:
+                <ul>
+                    {% for phone in client.phone_numbers %}
+                        <li>{{ phone.number }}</li>
                     {% endfor %}
-                {% endif %}
-            </tr>
-        </thead>
-
-        <!---- Adding data ---->
-        <tbody id="client-table-body">
-            <!---- Checking if exists clients ---->
-            {% if clients %}
-                {% for client in clients %}
-                    <tr>
-                        <td>{{ client.code }}</td>
-                        <td>{{ client.nit }}</td>
-                        <td>{{ client.name }}</td>
-                        <td>{{ client.direction }}</td>
-                        <td><a class="btn btn-info btn-sm" href="{% url 'clientphonenumber' client.id %}">Ver telefonos</a></td>
-                        {% if user.is_authenticated %}
-                            {% for group in user.groups.all %}
-                                {% if group.name == "Administrador" %}
-                                    <td><a class="btn btn-success btn-sm" href="{% url 'client' client.id %}">Ver cliente</a></td>
-                                {% endif %}
-                            {% endfor %}
-                        {% endif %}
-                    </tr>
-                {% endfor %}
-            {% endif %}
-        </tbody>
-    </table>
-
-    <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
-    <script>
-        $(document).ready(function() {
-            $('#client-filter').on('input', function() {
-                var filter = $(this).val().toLowerCase();
-                $('#client-table-body tr').filter(function() {
-                    $(this).toggle($(this).text().toLowerCase().indexOf(filter) > -1);
-                });
-            });
-        });
-    </script>
-{% endblock %}
+                </ul>
+            </li>
+        {% endfor %}
+    </ul>
+</body>
+</html>
