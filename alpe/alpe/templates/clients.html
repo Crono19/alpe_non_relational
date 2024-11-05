@@ -34,7 +34,7 @@
                         <td>{{ client.nit }}</td>
                         <td>{{ client.name }}</td>
                         <td>{{ client.direction }}</td>
-                        <td></td>
+                        <td><a class="btn btn-success btn-sm" href="{% url 'client-phonenumbers' client.id %}">Ver telefonos</a></td>
                         <td><a class="btn btn-success btn-sm" href="{% url 'client' client.id %}">Ver cliente</a></td>
                     </tr>
                 {% endfor %}
