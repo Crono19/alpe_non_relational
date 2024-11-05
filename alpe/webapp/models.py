@@ -12,7 +12,7 @@ class Client(Document):
     name = StringField(required=True, db_field="Name")
     direction = StringField(db_field="Direction")
     phone_numbers = ListField(EmbeddedDocumentField(PhoneNumber), db_field="PhoneNumbers")
-    deleted = StringField(required=True, db_field="Deleted")
+    deleted = StringField(required=True, db_field="Deleted", default="false")
 
     def delete(self):
         self.deleted = 'true'
