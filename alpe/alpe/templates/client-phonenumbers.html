@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="card">
+    <div class="card-body">
+        <strong>{{ client.name }}</strong>
+        <hr>
+        {% if phone_numbers.exists %}
+            {% for phone_number in phone_numbers %}
+                {% if not phone_number.deleted %}
+                    <p>
+                        <strong>Teléfono:</strong> {{ phone_number.phone }}
+                        <a href="{% url 'delete_client_phone' phone_number.id %}" class="btn btn-danger btn-sm">Eliminar</a>
+                    </p>
+                {% endif %}
+            {% endfor %}
+        {% else %}
+            <p>No hay números de teléfono registrados para este cliente.</p>
+        {% endif %}
+    </div>
+</div>

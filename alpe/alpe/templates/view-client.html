@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <div class="card">
+        <div class="card-body">
+            <strong>
+                {{client.name}}
+            </strong>
+            <hr>
+            <p><strong> ID: </strong> {{client.id}} </p>
+            <p><strong> Código: </strong> {{client.code}} </p>
+            <p><strong> NIT: </strong> {{client.nit}} </p>
+            <p><strong> Dirección: </strong> {{client.direction}} </p>
+        </div>
+    </div>
+
+    <br>
+    <a href="{% url 'clients_list' %}" class="btn btn-secondary">Regresar</a>
+    &nbsp;
+    <a href="{% url 'update-client' client.id %}" class="btn btn-info">Actualizar</a>
+    &nbsp;
+    <a class="btn btn-danger">Eliminar</a>
+
+{% endblock %}
