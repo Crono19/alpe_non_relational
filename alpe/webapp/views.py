@@ -1,7 +1,7 @@
 # webapp/views.py
 from django.shortcuts import render, redirect, get_object_or_404
 from .models import Client, PhoneNumber
-from .forms import CreateClient, UpdateClient
+from .forms import CreateClient, UpdateClient, AddClientPhones
 from bson import ObjectId
 from django.shortcuts import render
 
@@ -19,9 +19,9 @@ def view_client(request, pk):
     return render(request, "view-client.html", context=context)
 
 def view_client_phonenumbers(request, pk):
-    client = get_object_or_404(Client, id=pk)
-    phone_numbers = client.phone_numbers.filter(deleted=False)
-    return render(request, "view-client-phone.html", {
+    client = Client.objects(id=pk).first()
+    phone_numbers = client.phone_numbers
+    return render(request, "client-phonenumbers.html", {
         'client': client,
         'phone_numbers': phone_numbers
     })
@@ -66,3 +66,10 @@ def update_client(request, pk):
 
     context = {"form": form}
     return render(request, "update-client.html", context=context)
+
+def add_client_phonenumber(request, pk):
+    client = Client.objects(id=pk).first()
+    form = AddClientPhones()
+
+    context = {"form": form, "client": client}
+    return render(request, "alpe_corporation/add-client-phone.html", context=context)

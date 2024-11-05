@@ -9,4 +9,5 @@ urlpatterns = [
     path("client/<str:pk>", views.view_client, name="client"),
     path("client-phonenumbers/<str:pk>", views.view_client_phonenumbers, name="client-phonenumbers"),
     path("update-client/<str:pk>", views.update_client, name="update-client"),
+    path("add-client-phonenumber/<str:pk>", views.add_client_phonenumber, name="add-client-phonenumber"),
 ]

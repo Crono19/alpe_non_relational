@@ -12,3 +12,8 @@ class UpdateClient(forms.Form):
     nit = forms.CharField(label="NIT", max_length=100)
     name = forms.CharField(label="Nombre", max_length=100)
     direction = forms.CharField(label="Dirección", max_length=255, required=False)
+
+class AddClientPhones(forms.ModelForm):
+    class Meta:
+        fields = ["phone"]
+        labels = {"phone": "Teléfono"}
