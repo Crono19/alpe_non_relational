@@ -19,3 +19,10 @@
         {% endif %}
     </div>
 </div>
+
+<br>
+<a href="{% url 'clients_list' %}" class="btn btn-secondary">Regresar</a>
+&nbsp;
+<a href="{% url 'add-client-phonenumber' client.id %}" class="btn btn-info">Agregar un teléfono nuevo</a>
+&nbsp;
+{% endblock %}
