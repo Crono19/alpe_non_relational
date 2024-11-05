@@ -5,11 +5,12 @@
     <div class="card-body">
         <strong>{{ client.name }}</strong>
         <hr>
-        {% if phone_numbers.exists %}
-            {% for phone_number in phone_numbers %}
+        {% if client.phone_numbers %}
+            {% for phone_number in client.phone_numbers %}
                 {% if not phone_number.deleted %}
                     <p>
-                        <strong>Teléfono:</strong> {{ phone_number.phone }}
+                        <strong>Teléfono:</strong> {{ phone_number.number }}
+                        <!-- Enlace de eliminación funcional (si implementas la vista para manejar esto) -->
                         <a class="btn btn-danger btn-sm">Eliminar</a>
                     </p>
                 {% endif %}
